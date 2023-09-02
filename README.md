@@ -4,8 +4,9 @@
 #### gen12_igd.rom: 核显直通 OptionROM （基本通用）
 #### gen12_gop.rom: GOP 驱动 （此rom从华南金牌B760主板BIOS文件提取 仅支持Intel 12th，13th CPU， Intel N95/N100/N305/N5105 等属于不同核显平台，大家自行提取）
 
+### 使用本ROM,无需修改OVMF,使用PVE自带即可!
 
-### 因为使用两个rom文件，conf配置文件中，一个rom文件加在显卡，另一个加在声卡。
+### 因为使用两个rom文件，conf配置文件中，一个rom文件加在显卡，另一个加在声卡,大家注意一下。
 ```
 hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
 hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
