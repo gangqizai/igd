@@ -45,4 +45,33 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 
 #### 如果大家不愿意用两个rom文件，也可以合成一个。
 
+#### PVE 显卡直通设定：
+
+```
+vim /etc/default/grub
+```
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on"
+```
+```
+update-grub
+```
+
+```
+vim /etc/modules
+```
+```
+vfio
+vfio_iommu_type1
+vfio_pci
+vfio_virqfd
+```
+```
+echo "blacklist i915" >> /etc/modprobe.d/pve-blacklist.conf
+```
+```
+echo "options vfio-pci ids=8086:a780" >> /etc/modprobe.d/vifo.conf
+```
+### vifo.conf 没有 disable_vga=1，有的删掉！
+
 Email: gangqizai@gmail.com
