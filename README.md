@@ -1,5 +1,9 @@
 ## Intel 核显直通 optionROM
 
+#### 更新：
+1. 增加 8505 GOP rom: 
+2. 增加 5105 GOP rom:
+
 #### 本ROM 有两个rom文件: 
 1. **gen12_igd.rom**: 核显直通 OptionROM （基本通用）
 2. **gen12_gop.rom**: GOP 驱动 （此rom从华南金牌B760主板BIOS文件提取 仅支持Intel 12th，13th CPU， Intel N95/N100/N305/N5105 等属于不同核显平台，大家自行提取）
