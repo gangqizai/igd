@@ -1,8 +1,10 @@
 ## Intel 核显直通 optionROM
 
-#### 本ROM 有两个rom文件:
+#### 本ROM 有两个rom文件: 
 1. **gen12_igd.rom**: 核显直通 OptionROM （基本通用）
 2. **gen12_gop.rom**: GOP 驱动 （此rom从华南金牌B760主板BIOS文件提取 仅支持Intel 12th，13th CPU， Intel N95/N100/N305/N5105 等属于不同核显平台，大家自行提取）
+
+#### 把这两个rom file copy to /use/share/kvm/
 
 #### 使用本ROM,无需修改OVMF,使用PVE自带即可!
 
@@ -11,6 +13,7 @@
 hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
 hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 ```
+
 #### 大家可以参考我的100.conf 
 其中的 “-debugcon file:/root/igd_debug.log” 为调试文件，介意的可以不加。
 
