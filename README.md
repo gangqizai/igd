@@ -83,6 +83,8 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 > ```
 > echo "blacklist i915" >> /etc/modprobe.d/pve-blacklist.conf
 > ```
+> 通过设备ID绑定vfio-pci
+>
 > ```
 > echo "options vfio-pci ids=8086:a780" >> /etc/modprobe.d/vifo.conf
 > ```
