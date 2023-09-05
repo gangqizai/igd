@@ -24,9 +24,14 @@ hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
 hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 ```
 
-#### 大家可以参考我的100.conf 
-其中的 “-debugcon file:/root/igd_debug.log” 为调试文件，介意的可以不加。
-
+#### 大家可以参考我的100.conf, 注意以下事项：
+> 1. 机型必须i440fx，（QEMU不支持Q35 核显Legacy模式下显示，可以定制QEMU支持Q35，不在本文讨论）
+> 2. BIOS必须OVMF，Intel核显已不支持传统BIOS启动
+> 3. 核显PCI加入legacy-igd=1以支持核显Legacy模式下显示
+> 4. args加入：-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-gms=0x2 -set device.hostpci0.x-igd-opregion=on
+> 5. args中的 “-debugcon file:/root/d-debug.log -global isa-debugcon.iobase=0x402” 为调试文件，介意的不加
+> 6. 虚拟机内存至少4G，小于4G可能有问题
+> 7. 建议 x-igd-gms=0x2，同时注意BIOS设定：DVMT pre allocated，不要大过64M 
 
 
 #### 使用限制
@@ -39,9 +44,9 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 6) 注意BIOS设定：DVMT pre allocated，不要大过64M，64M对应x-igd-gms=0x2，如果超过64M,x-igd-gms要加大！
 7) 仅在PVE8.0环境下测试, 其他环境未测试.
 
-#### 本ROM仅在以下环境下测试,其他环境未测试.
+#### 本ROM仅在以下环境下测试,其他环境本人未测试.
 1) 华南金牌760主板 + 13600CPU
-2) PVE 8.0
+2) PVE 8.0.3
 3）测试结果基本完美，没有花屏，可以完成整个windows安装。
 
 #### 欢迎提供调试信息
