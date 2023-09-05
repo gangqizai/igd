@@ -2,28 +2,27 @@
 
 
 ### 简介
-> 1. 本ROM为Intel 10-13核显直通PCI optionROM, 搭配OVMF可以实现虚拟机启动,HDMI/DP 输出启动画面,HDMI/DP声音正常工作
-> 2. 本ROM使用简单,无需修改或定制OVMF,使用PVE自带即可!
-> 3. 虚拟机启动无花屏，蓝屏。
+> - 本ROM为Intel 10-13核显直通PCI optionROM, 搭配OVMF可以实现虚拟机启动,显示器 HDMI/DP 输出画面, HDMI/DP声音正常工作
+> - 本ROM使用简单,无需修改或定制OVMF,使用PVE自带即可!
+> - 虚拟机启动无花屏，蓝屏。
 
 
-GOP ROM 文件名       | 适用CPU平台
---------------------|-------------------------
-gen12_gop.rom       | Intel 11-13代 酷睿 
-5105_gop.rom        | N5105 / N5095
-8505_gop.rom        | 8505
+### 使用:
++ 本ROM 需要使用两个rom文件:
+> - 核显直通 OptionROM: **gen12_igd.rom**   --各平台基本通用
+> - GOP ROM:  --- 根据不同核显平台选择相应rom文件，见下表：
+>
+> -  
+ GOP ROM 文件名          | 适用CPU平台
+ ------------------------|----------------------------
+ gen12_gop.rom           | Intel 11-13代 酷睿 
+ 5105_gop.rom            | N5105 / N5095
+ 8505_gop.rom            | 8505
 
 \* 大家根据主机的CPU选用相应GOP ROM，选用错误GOP ROM功能导致无启动画面
-   
-#### 本ROM 需要使用两个rom文件: 
-> 1. **gen12_igd.rom**: 核显直通 OptionROM （基本通用）
-> 2. **gen12_gop.rom**: GOP ROM （此rom从华南金牌B760主板BIOS文件提取 仅支持Intel 11-13th CPU， Intel N95/N100/N305/N5105 等属于不同核显平台，大家自行提取）
 
-#### 把这两个rom file copy to /use/share/kvm/
-
-#### 使用本ROM,无需修改OVMF,使用PVE自带即可!
-
-#### 因为使用两个rom文件，conf配置文件中，一个rom文件加在显卡，另一个加在声卡,大家注意一下。
++ 把这两个rom file copy to /use/share/kvm/
++ 因为使用两个rom文件，conf配置文件中，一个rom文件加在显卡，另一个加在声卡,大家注意一下。
 ```
 hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
 hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
