@@ -95,4 +95,35 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 > ```
 ### vifo.conf 没有 disable_vga=1，有的删掉！
 
+#### PVE Windows 虚拟机 CONF：
+
+```
+args: -set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-gms=0x2 -set device.hostpci0.x-igd-opregion=on -debugcon file:/root/igd_debug.log -global isa-debugcon.iobase=0x402
+bios: ovmf
+boot: order=scsi0;ide0
+cores: 4
+cpu: host
+efidisk0: local-lvm:vm-200-disk-0,efitype=4m,size=4M
+hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
+hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
+ide0: local:iso/virtio-win-0.1.229.iso,media=cdrom,size=522284K
+ide2: local:iso/Win10_22H2_English_x64.iso,media=cdrom,size=5971862K
+machine: pc-i440fx-8.0
+memory: 8192
+meta: creation-qemu=8.0.2,ctime=1692935943
+name: Win10
+net0: virtio=32:02:47:A8:40:01,bridge=vmbr0,firewall=1
+numa: 0
+ostype: win10
+scsi0: local-lvm:vm-200-disk-1,iothread=1,size=60G
+scsihw: virtio-scsi-single
+serial1: socket
+smbios1: uuid=d9fadf8d-eae0-4cb3-a3d5-cf222c305b91
+sockets: 1
+usb0: host=046d:c016,usb3=1
+usb1: host=1c4f:0059,usb3=1
+vga: none
+vmgenid: 8f84e0f9-534d-440b-bb6d-09ed75cdc167
+```
+
 Email: gangqizai@gmail.com
