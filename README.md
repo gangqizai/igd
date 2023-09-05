@@ -2,56 +2,57 @@
 
 
 ### 简介
-> - 本ROM为Intel 10-13核显直通PCI optionROM, 搭配OVMF可以实现虚拟机启动,显示器 HDMI/DP 输出画面, HDMI/DP声音正常工作
-> - 本ROM使用简单,无需修改或定制OVMF,使用PVE自带即可!
-> - 虚拟机启动无花屏，蓝屏。
+  - 本ROM为Intel 10-13核显直通PCI optionROM, 搭配OVMF可以实现虚拟机启动,显示器 HDMI/DP 输出画面, HDMI/DP声音正常工作
+  - 本ROM使用简单,无需修改或定制OVMF,使用PVE自带即可!
+  - 虚拟机启动无花屏，蓝屏。
 
 
-### 使用:
+### 使用方法:
+
 + 本ROM 需要使用两个rom文件:
-> - 核显直通 OptionROM: **gen12_igd.rom**   --各平台基本通用
-> - GOP ROM:  --- 根据不同核显平台选择相应rom文件，见下表：
->
-> -  
- GOP ROM 文件名          | 适用CPU平台
- ------------------------|----------------------------
- gen12_gop.rom           | Intel 11-13代 酷睿 
- 5105_gop.rom            | N5105 / N5095
- 8505_gop.rom            | 8505
+  - 核显直通 OptionROM: **gen12_igd.rom**   --各平台基本通用
+  - GOP ROM:  --- 根据不同核显平台选择相应rom文件，见下表：
 
-\* 大家根据主机的CPU选用相应GOP ROM，选用错误GOP ROM功能导致无启动画面
+GOP ROM 文件名         | 适用CPU平台
+----------------------|----------------------------
+gen12_gop.rom         | Intel 11-13代 酷睿 
+5105_gop.rom          | N5105 / N5095
+8505_gop.rom          | 8505
+
+  - 大家根据主机的CPU选用相应GOP ROM，选用错误GOP ROM功能导致无启动画面
 
 + 把这两个rom file copy to /use/share/kvm/
 + 因为使用两个rom文件，conf配置文件中，一个rom文件加在显卡，另一个加在声卡,大家注意一下。
-```
-hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
-hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
-```
 
-#### 大家可以参考我的100.conf, 注意以下事项：
-> 1. 机型必须i440fx，（QEMU不支持Q35 核显Legacy模式下显示，可以定制QEMU支持Q35，不在本文讨论）
-> 2. BIOS必须OVMF，Intel核显已不支持传统BIOS启动
-> 3. 核显PCI加入legacy-igd=1以支持核显Legacy模式下显示
-> 4. args加入：-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-gms=0x2 -set device.hostpci0.x-igd-opregion=on
-> 5. args中的 “-debugcon file:/root/d-debug.log -global isa-debugcon.iobase=0x402” 为调试文件，介意的不加
-> 6. 虚拟机内存至少4G，小于4G可能有问题
-> 7. 建议 x-igd-gms=0x2，同时注意BIOS设定：DVMT pre allocated，不要大过64M 
+   ```
+   hostpci0: 0000:00:02.0,legacy-igd=1,romfile=gen12_igd.rom
+   hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
+   ```
+
+### 大家可以参考我的100.conf, 注意以下事项：
+ + 机型必须i440fx，（QEMU不支持Q35 核显Legacy模式下显示，可以定制QEMU支持Q35，不在本文讨论）
+ + BIOS必须OVMF，Intel核显已不支持传统BIOS启动
+ + 核显PCI加入legacy-igd=1以支持核显Legacy模式下显示
+ + args加入：-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-gms=0x2 -set device.hostpci0.x-igd-opregion=on
+ + args中的 “-debugcon file:/root/d-debug.log -global isa-debugcon.iobase=0x402” 为调试文件，介意的不加
+ + 虚拟机内存至少4G，小于4G可能有问题
+ + 建议 x-igd-gms=0x2，同时注意BIOS设定：DVMT pre allocated，不要大过64M 
 
 
 #### 使用限制
 
-> 1) 本ROM不支持商用,仅供DIY爱好者技术研究
-> 2)  本ROM仅支持Intel核显,不支持AMD
-> 3) 仅支持UEFI,正常启动.安全启动暂不支持
-> 4) 仅支持OVMF模式,seabios不支持
-> 5) 内存至少4G，小于4G可能有问题
-> 6) 注意BIOS设定：DVMT pre allocated，不要大过64M，64M对应x-igd-gms=0x2，如果超过64M,x-igd-gms要加大！
-> 7) 仅在PVE8.0环境下测试, 其他环境未测试.
++ 本ROM不支持商用,仅供DIY爱好者技术研究
++ 本ROM仅支持Intel核显,不支持AMD
++ 仅支持UEFI,正常启动.安全启动暂不支持
++ 仅支持OVMF模式,seabios不支持
++ 内存至少4G，小于4G可能有问题
++ 注意BIOS设定：DVMT pre allocated，不要大过64M，64M对应x-igd-gms=0x2，如果超过64M,x-igd-gms要加大！
+
 
 #### 本ROM仅在以下环境下测试,其他环境本人未测试.
-> 1. 华南金牌760主板 + 13600CPU
-> 2. PVE 8.0.3
-> 3. 测试结果基本完美，有logo和启动画面，没有花屏，HDMI/DP声音正常工作。也可以完成整个windows从头安装，。
++ 华南金牌760主板 + 13600CPU
++ PVE 8.0.3
++ 测试结果基本完美，有logo和启动画面，没有花屏，HDMI/DP声音正常工作。也可以完成整个windows从头安装，。
 
 #### 油管播放4K视频：任务管理器GPU占用
 > ![GPU](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/task_manager.PNG "GPU")
@@ -77,10 +78,10 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 > + 
 
 #### 欢迎提供调试信息
-> 1. 本人仅有一台机器，无法测试更多平台，欢迎大家提供测试调试信息。
-> 2. 在conf文件中确认打开 args: -debugcon file:/root/igd_debug.log -global isa-debugcon.iobase=0x402
-> 3. 提供生成的调试文件：/root/igd_debug.log
-> 4. 在PVE主机shell, 发两个命令：lspci -s 00:02.0 -xxx 和 lspci -s 00:00.0 -xxx， 把输出结果发给我
++ 本人仅有一台机器，无法测试更多平台，欢迎大家提供测试调试信息。
++ 在conf文件中确认打开 args: -debugcon file:/root/igd_debug.log -global isa-debugcon.iobase=0x402
++ 提供生成的调试文件：/root/igd_debug.log
++ 在PVE主机shell, 发两个命令：lspci -s 00:02.0 -xxx 和 lspci -s 00:00.0 -xxx， 把输出结果发给我
 
 
 #### 如果大家不愿意用两个rom文件，也可以合成一个。
