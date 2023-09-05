@@ -62,7 +62,7 @@ gen12_gop.rom         | Intel 11-13代 酷睿
 
 #### 常见错误
 > 1. 无启动Logo 显示和开机动画
-> + PVE shell 用命令启动虚拟机,仅能看到以下声卡错误，若有其他错误检查PVE直通是的，参考下面本人设置
+> + PVE shell 用命令启动虚拟机,必须仅能看到以下声卡错误，若有其他错误，检查PVE直通设定，参考下面本人设置
 >   ```
 >   root@pve:/etc/pve/qemu-server# qm start 300
 >   kvm: vfio: Cannot reset device 0000:00:1f.3, no available reset mechanism.
