@@ -69,6 +69,12 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 >   kvm: vfio: Cannot reset device 0000:00:1f.3, no available reset mechanism.
 >   ```
    
+> 2. 无HDMI/DP 声音
+> + 首先检查音频控制器驱动: 设备管理器->系统设备-> HD audio 控制器，如果没有，检查芯片组和音频驱动
+> + ![HD Audio controller](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/hdmi-audio-controller.PNG "HD Audio Controller")
+> + 可以删除显卡驱动，重启后再安装
+> + 核显直通模式下完整从头安装windows（本ROM支持,安装过程无花屏）
+> + 
 
 #### 欢迎提供调试信息
 > 1. 本人仅有一台机器，无法测试更多平台，欢迎大家提供测试调试信息。
