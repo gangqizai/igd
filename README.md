@@ -41,31 +41,40 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 
 #### 使用限制
 
-1) 本ROM不支持商用,仅供DIY爱好者技术研究
-2)  本ROM仅支持Intel核显,不支持AMD
-3) 仅支持UEFI,正常启动.安全启动暂不支持
-4) 仅支持OVMF模式,seabios不支持
-5) 内存至少4G，小于4G可能有问题
-6) 注意BIOS设定：DVMT pre allocated，不要大过64M，64M对应x-igd-gms=0x2，如果超过64M,x-igd-gms要加大！
-7) 仅在PVE8.0环境下测试, 其他环境未测试.
+> 1) 本ROM不支持商用,仅供DIY爱好者技术研究
+> 2)  本ROM仅支持Intel核显,不支持AMD
+> 3) 仅支持UEFI,正常启动.安全启动暂不支持
+> 4) 仅支持OVMF模式,seabios不支持
+> 5) 内存至少4G，小于4G可能有问题
+> 6) 注意BIOS设定：DVMT pre allocated，不要大过64M，64M对应x-igd-gms=0x2，如果超过64M,x-igd-gms要加大！
+> 7) 仅在PVE8.0环境下测试, 其他环境未测试.
 
 #### 本ROM仅在以下环境下测试,其他环境本人未测试.
-1) 华南金牌760主板 + 13600CPU
-2) PVE 8.0.3
-3）测试结果基本完美，没有花屏，可以完成整个windows安装。
+> 1) 华南金牌760主板 + 13600CPU
+> 2) PVE 8.0.3
+> 3）测试结果基本完美，没有花屏，可以完成整个windows安装。
 
 #### 油管播放4K视频：任务管理器GPU占用
-![GPU](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/task_manager.PNG "GPU")
+> ![GPU](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/task_manager.PNG "GPU")
 
 #### HDMI Audio 
-![HDMI Audio](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/hdmi-audio.PNG "HDMI Audio")
+> ![HDMI Audio](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/hdmi-audio.PNG "HDMI Audio")
 
+#### 常见错误
+> 1. 无启动Logo 显示和开机动画
+> + PVE shell 用命令启动虚拟机,仅能看到以下声卡错误，若有其他错误检查PVE直通是的，参考下面本人设置
+>   ```
+>   root@pve:/etc/pve/qemu-server# qm start 300
+>   kvm: vfio: Cannot reset device 0000:00:1f.3, no available reset mechanism.
+>   kvm: vfio: Cannot reset device 0000:00:1f.3, no available reset mechanism.
+>   ```
+   
 
 #### 欢迎提供调试信息
-1. 本人仅有一台机器，无法测试更多平台，欢迎大家提供测试调试信息。
-2. 在conf文件中确认打开 args: -debugcon file:/root/igd_debug.log -global isa-debugcon.iobase=0x402
-3. 提供生成的调试文件：/root/igd_debug.log
-4. 在PVE主机shell, 发两个命令：lspci -s 00:02.0 -xxx 和 lspci -s 00:00.0 -xxx， 把输出结果发给我
+> 1. 本人仅有一台机器，无法测试更多平台，欢迎大家提供测试调试信息。
+> 2. 在conf文件中确认打开 args: -debugcon file:/root/igd_debug.log -global isa-debugcon.iobase=0x402
+> 3. 提供生成的调试文件：/root/igd_debug.log
+> 4. 在PVE主机shell, 发两个命令：lspci -s 00:02.0 -xxx 和 lspci -s 00:00.0 -xxx， 把输出结果发给我
 
 
 #### 本ROM应该可以支持Intel 11-13代CPU核显，Intel N95/N100/N305/N5105 等属于不同核显平台，需要提取相应核显GOP rom
