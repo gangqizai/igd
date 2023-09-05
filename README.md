@@ -50,9 +50,9 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 > 7) 仅在PVE8.0环境下测试, 其他环境未测试.
 
 #### 本ROM仅在以下环境下测试,其他环境本人未测试.
-> 1) 华南金牌760主板 + 13600CPU
-> 2) PVE 8.0.3
-> 3）测试结果基本完美，没有花屏，可以完成整个windows安装。
+> 1. 华南金牌760主板 + 13600CPU
+> 2. PVE 8.0.3
+> 3. 测试结果基本完美，有logo和启动画面，没有花屏，HDMI/DP声音正常工作。也可以完成整个windows从头安装，。
 
 #### 油管播放4K视频：任务管理器GPU占用
 > ![GPU](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/task_manager.PNG "GPU")
@@ -68,6 +68,7 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 >   kvm: vfio: Cannot reset device 0000:00:1f.3, no available reset mechanism.
 >   kvm: vfio: Cannot reset device 0000:00:1f.3, no available reset mechanism.
 >   ```
+>   + /etc/modprobe.d/vifo.conf 文件中不能有 disable_vga=1，有的删掉！然后命令“update-initramfs -u” 和重启PVE
    
 > 2. 无HDMI/DP 声音
 > + 首先检查音频控制器驱动: 设备管理器->系统设备-> HD audio 控制器，如果没有，检查芯片组和音频驱动
@@ -82,8 +83,6 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 > 3. 提供生成的调试文件：/root/igd_debug.log
 > 4. 在PVE主机shell, 发两个命令：lspci -s 00:02.0 -xxx 和 lspci -s 00:00.0 -xxx， 把输出结果发给我
 
-
-#### 本ROM应该可以支持Intel 11-13代CPU核显，Intel N95/N100/N305/N5105 等属于不同核显平台，需要提取相应核显GOP rom
 
 #### 如果大家不愿意用两个rom文件，也可以合成一个。
 
