@@ -49,6 +49,13 @@ hostpci1: 0000:00:1f.3,romfile=gen12_gop.rom
 2) PVE 8.0.3
 3）测试结果基本完美，没有花屏，可以完成整个windows安装。
 
+#### 油管播放4K视频：任务管理器GPU占用
+![GPU](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/task_manager.PNG "GPU")
+
+#### HDMI Audio 
+![HDMI Audio](https://raw.githubusercontent.com/gangqizai/igd/main/test_screenshot/hdmi-audio.PNG "HDMI Audio")
+
+
 #### 欢迎提供调试信息
 1. 本人仅有一台机器，无法测试更多平台，欢迎大家提供测试调试信息。
 2. 在conf文件中确认打开 args: -debugcon file:/root/igd_debug.log -global isa-debugcon.iobase=0x402
