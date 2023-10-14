@@ -18,6 +18,7 @@ GOP ROM 文件名         | 适用CPU平台
 gen12_gop.rom         | Intel 11-13代 酷睿 
 5105_gop.rom          | N5105 / N5095
 8505_gop.rom          | 8505
+n100_gop.rom          | N100
 
   - 大家根据主机的CPU选用相应GOP ROM，选用错误GOP ROM功能导致无启动画面
 
