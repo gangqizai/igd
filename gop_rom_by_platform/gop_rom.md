@@ -7,4 +7,4 @@ GOP ROM 文件名       | 适用CPU平台
 gen12_gop.rom       | Intel 11-13代 酷睿 
 5105_gop.rom        | N5105 / N5095
 8505_gop.rom        | 8505
-
+n100_gop.rom        | N100
