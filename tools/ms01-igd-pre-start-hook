@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+VMID=${1:?VMID argument is required}
+PHASE=${2:?hook phase argument is required}
+
+if [ "$PHASE" != pre-start ]; then
+    exit 0
+fi
+
+exec /usr/local/sbin/manage-ms01-node-rom check \
+    --manifest /etc/ms01-igd/node-rom-manifest.json \
+    --vmid "$VMID"
