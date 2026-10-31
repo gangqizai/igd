@@ -1,6 +1,7 @@
 # MINISFORUM MS-01 IGD passthrough compatibility
 
-**Report date:** 2026-09-01
+**Hardware results:** through 2026-09-04
+**Publication reconciliation:** 2026-10-31
 
 This report compares observed MS-01 hardware variants for exclusive Intel iGPU
 assignment to a Proxmox VM with physical HDMI output. Results concern physical
@@ -13,8 +14,8 @@ for every unit of the same model.
 | MS-01 variant | CPU | iGPU | GPU IOMMU isolation | Host display evidence | ROM support | Guest physical-display result | Status |
 |---|---|---|---|---|---|---|---|
 | S1260-class | Intel Core i5-12600H | `8086:46a6`, rev `0c` | `00:02.0` isolated | HDMI connected, 256-byte EDID, modes through 2560x1440 | Exact combined ROM tracked in `roms/` | Physical GDM over HDMI and accelerated Mesa Intel Iris Xe (ADL GT2) | Verified on one sampled unit; native-first late handoff and explicit host return are machine-validated, with partial physical stress observation and an EDID reliability caveat |
-| S1390 | Intel Core i9-13900H | `8086:a720`, rev `04` | `00:02.0` isolated | No connected display or EDID in the collected samples | No bundled ROM declares `a720` | Not tested | Not validated; prerequisite evidence only, with no exact ROM or passthrough experiment |
-| S1290 | Intel Core i9-12900H | `8086:4626`, rev `0c` | `00:02.0` isolated | HDMI connected, 128-byte EDID, preferred 1600x1200 mode | Exact custom ROM is reproducibly buildable but is not tracked or distributed | Physical GDM/desktop UI over HDMI with Xorg `AccelMethod none`, `ShadowFB`, and `swrast` | Verified on the tested S1290 unit with the mapped i440fx/OVMF profile; native-first late handoff, guest alternation, and explicit host return are machine-validated, while software rendering is required and physical observation of every handoff remains pending |
+| S1390 | Intel Core i9-13900H | `8086:a720`, rev `04` | `00:02.0` isolated | Early host collection lacked a display; later guest HDMI output was operator-confirmed | Exact combined ROM tracked in `roms/` | Physical HDMI and accelerated Xorg/Mesa Iris on Ubuntu 22.04 HWE kernel `6.8.0-138-generic` | Qualified for the recorded profile; kernel `5.15.0-97-generic` did not bind the device |
+| S1290 | Intel Core i9-12900H | `8086:4626`, rev `0c` | `00:02.0` isolated | HDMI connected, 128-byte EDID, preferred 1600x1200 mode | Exact combined ROM tracked in `roms/` and the node manifest | Physical GDM/desktop UI over HDMI with Xorg `AccelMethod none`, `ShadowFB`, and `swrast` | Verified on the tested S1290 unit with the mapped i440fx/OVMF profile; native-first late handoff, guest alternation, and explicit host return are machine-validated, while software rendering is required and physical observation of every handoff remains pending |
 
 ## Shared platform evidence
 
@@ -57,7 +58,7 @@ GPU-only passthrough and use virtual or USB audio when sound is required.
 | `gen12_gop.rom` | `8086:a780` | Not an exact match for the observed variants |
 | `gop_rom_by_platform/1240p_gop.rom` | `8086:46a6` | Exact S1260 GOP header, but not a complete combined assignment ROM |
 | `roms/ms01-adlp-8086-46a6-gop21.0.1066.rom` | `8086:46a6` | Exact combined S1260 ROM used for verified physical HDMI and accelerated rendering |
-| S1290 validation ROM, generated and not tracked | `8086:4626` | Exact-ID combined ROM used for verified S1290 physical HDMI with the software-rendered guest fallback |
+| `roms/ms01-s1290-8086-4626-a08b8f9aa797.rom` | `8086:4626` | Exact-ID combined ROM used for verified S1290 physical HDMI with the software-rendered guest fallback |
 
 The older two-ROM recipe is unsuitable for the observed S1260 configuration:
 its assignment ROM declares the wrong PCI ID and it expects the unsafe PCH
@@ -68,13 +69,13 @@ header declaring `8086:46a6`. See
 
 ### S1260 and S1290 combined-ROM comparison
 
-The repository contains the S1260 combined ROM but does **not** contain the
-generated S1290 validation ROM:
+The repository contains both exact-ID combined ROMs and qualified node
+manifest entries:
 
 | Target | Repository status | Size | SHA-256 |
 |---|---|---:|---|
 | S1260 / `8086:46a6` | Tracked at `roms/ms01-adlp-8086-46a6-gop21.0.1066.rom` | 195,072 bytes | `954a0a86ddf2c45edf655d8ff999b3d8855fb3d3a76424a8b91aef2147f5eac9` |
-| S1290 / `8086:4626` | Generated for validation; not tracked or distributed | 195,072 bytes | `a08b8f9aa797d9b5622957a4284ef8976a4641c800bf7a33f7dc63b09e18ded2` |
+| S1290 / `8086:4626` | Tracked at `roms/ms01-s1290-8086-4626-a08b8f9aa797.rom` | 195,072 bytes | `a08b8f9aa797d9b5622957a4284ef8976a4641c800bf7a33f7dc63b09e18ded2` |
 
 The S1290 discovery and strict-reproduction builds were byte-identical. When
 compared with the tracked S1260 ROM, only three bytes differed: the low byte of
@@ -117,12 +118,17 @@ remains a stability boundary for further testing.
 
 ### S1390 / Core i9-13900H / `8086:a720`
 
-The collected samples had isolated iGPUs and satisfied the host IOMMU
-prerequisites. No sample had an attached display detected during collection,
-this repository contains no exact `a720` combined ROM, and no passthrough
-experiment was completed. This model is not validated. Before attempting
-passthrough, prove EDID acquisition with the intended display and build and
-inspect an exact ROM.
+The early host samples had isolated iGPUs but no attached display during
+collection. A later run on 2026-09-04 qualified the exact `8086:a720` ROM
+`roms/ms01-s1390-8086-a720-6e166a89e84b.rom`, with operator-confirmed physical
+HDMI and accelerated Xorg/Mesa Iris using Ubuntu 22.04 HWE kernel
+`6.8.0-138-generic`. The earlier `5.15.0-97-generic` kernel exposed the PCI
+function but did not bind a driver. See `roms/ROM-PROVENANCE.md` for the exact
+artifact and scope. The earlier collection alone was not this qualification.
+
+This profile is specific to physical PCI ID `8086:a720`. A replacement unit
+reporting `8086:a7a0` must not use it: that ID is not currently qualified in the
+manifest, even when the CPU or marketing model name matches.
 
 ### S1290 / Core i9-12900H / `8086:4626`
 

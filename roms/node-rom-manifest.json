@@ -16,6 +16,17 @@
       "qemu_args": "-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-legacy-mode=off -set device.hostpci0.x-igd-opregion=on -set device.hostpci0.x-igd-gms=0x2"
     },
     {
+      "name": "ms01-s1290",
+      "status": "qualified",
+      "pci_id": "8086:4626",
+      "rom": "ms01-s1290-8086-4626-a08b8f9aa797.rom",
+      "source": "ms01-s1290-8086-4626-a08b8f9aa797.rom",
+      "sha256": "a08b8f9aa797d9b5622957a4284ef8976a4641c800bf7a33f7dc63b09e18ded2",
+      "bytes": 195072,
+      "machine": "pc-i440fx-11.0",
+      "qemu_args": "-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-legacy-mode=off -set device.hostpci0.x-igd-opregion=on -set device.hostpci0.x-igd-gms=0x2"
+    },
+    {
       "name": "ms01-s1390",
       "status": "qualified",
       "pci_id": "8086:a720",

@@ -12,7 +12,7 @@
 > output was also verified on a tested S1290 unit with iGPU `8086:4626` and Ubuntu
 > 22.04.5/kernel `5.15.0-97-generic`, but only after disabling Wayland and Xorg
 > hardware acceleration. The S1290 result is software-rendered and its exact
-> ROM is reproducibly buildable but is not tracked here. Physical HDMI output
+> ROM is tracked in `roms/` and included in the node manifest. Physical HDMI output
 > and accelerated Intel rendering were verified on an S1390-class MS-01 with iGPU `8086:a720`, the tracked
 > `6e166a89e84b...` ROM, and Ubuntu 22.04 HWE kernel `6.8.0-138-generic`; the
 > guest bound the IGD to `i915`, created DRM, and ran accelerated Xorg with

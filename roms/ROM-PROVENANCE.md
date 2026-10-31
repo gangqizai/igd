@@ -1,4 +1,4 @@
-# Verified MS-01 S1260 option ROM
+# Verified MS-01 option ROMs
 
 ## Artifact
 
@@ -18,7 +18,9 @@ this tracked `8086:46a6` artifact. Its discovery and strict-reproduction builds
 were byte-identical at 195,072 bytes with SHA-256
 `a08b8f9aa797d9b5622957a4284ef8976a4641c800bf7a33f7dc63b09e18ded2`.
 That ROM produced operator-confirmed physical HDMI with the Ubuntu 22.04 Xorg
-software-rendered fallback, but it is not tracked or distributed here. Never
+software-rendered fallback. It is tracked as
+`roms/ms01-s1290-8086-4626-a08b8f9aa797.rom` and included as a qualified
+profile in `roms/node-rom-manifest.json`. Never
 mix ROMs between unsupported PCI IDs; rebuild, inspect, and validate an exact
 ROM for the live device identity.
 
@@ -35,6 +37,23 @@ rendering (`Accelerated: yes`). The same run produced operator-confirmed
 physical HDMI output. The earlier Ubuntu 22.04 kernel
 `5.15.0-97-generic` exposed the PCI function but did not bind a driver, so a
 guest kernel that supports `8086:a720` is part of this qualified result.
+
+## Reproduce the published S1290 artifact
+
+The publication repair on 2026-10-31 rebuilt the S1290 ROM locally from the
+pinned inputs and required the hash recorded for the previously tested ROM:
+
+```bash
+bash tools/rebuild-rom.sh \
+  --model ms01-s1290 --device-id 4626 \
+  --expected-output-sha256 a08b8f9aa797d9b5622957a4284ef8976a4641c800bf7a33f7dc63b09e18ded2 \
+  --output /tmp/ms01-s1290-8086-4626.rom
+```
+
+All three PCIR images declared `8086:4626`; the repeated-build and payload
+checks passed. This restores the previously omitted artifact to the public
+manifest without claiming a new live hardware test. The qualified physical
+output boundary remains the documented Xorg software-rendered fallback.
 
 ## Components
 

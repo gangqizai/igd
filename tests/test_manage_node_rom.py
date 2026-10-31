@@ -164,6 +164,28 @@ class NodeRomTests(unittest.TestCase):
                     )
                 )
 
+    def test_published_profiles_cover_previously_qualified_models(self) -> None:
+        manifest = rom_manager.load_manifest(
+            MODULE_PATH.parents[1] / "roms/node-rom-manifest.json"
+        )
+        expected = {
+            "8086:46a6": "ms01-s1260",
+            "8086:4626": "ms01-s1290",
+            "8086:a720": "ms01-s1390",
+        }
+        for pci_id, name in expected.items():
+            with self.subTest(pci_id=pci_id):
+                profile = rom_manager.select_profile(manifest, pci_id)
+                self.assertEqual(profile["name"], name)
+                self.assertEqual(profile["status"], "qualified")
+
+    def test_similar_model_does_not_authorize_unqualified_pci_id(self) -> None:
+        manifest = rom_manager.load_manifest(
+            MODULE_PATH.parents[1] / "roms/node-rom-manifest.json"
+        )
+        with self.assertRaises(rom_manager.Refusal):
+            rom_manager.select_profile(manifest, "8086:a7a0")
+
 
 if __name__ == "__main__":
     unittest.main()
