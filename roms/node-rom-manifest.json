@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "alias": "ms01-igd-current.rom",
+  "mapping_id": "MS01-IGD",
+  "igd_path": "0000:00:02.0",
+  "profiles": [
+    {
+      "name": "ms01-s1260",
+      "status": "qualified",
+      "pci_id": "8086:46a6",
+      "rom": "ms01-s1260-8086-46a6-954a0a86ddf2.rom",
+      "source": "ms01-adlp-8086-46a6-gop21.0.1066.rom",
+      "sha256": "954a0a86ddf2c45edf655d8ff999b3d8855fb3d3a76424a8b91aef2147f5eac9",
+      "bytes": 195072,
+      "machine": "pc-i440fx-11.0",
+      "qemu_args": "-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-legacy-mode=off -set device.hostpci0.x-igd-opregion=on -set device.hostpci0.x-igd-gms=0x2"
+    },
+    {
+      "name": "ms01-s1390",
+      "status": "qualified",
+      "pci_id": "8086:a720",
+      "rom": "ms01-s1390-8086-a720-6e166a89e84b.rom",
+      "source": "ms01-s1390-8086-a720-6e166a89e84b.rom",
+      "sha256": "6e166a89e84b5f20fe41edc68400a5e43cb4b3f7b704c39ea46b9e3cbd3d4538",
+      "bytes": 195072,
+      "machine": "pc-i440fx-11.0",
+      "qemu_args": "-set device.hostpci0.addr=02.0 -set device.hostpci0.x-igd-legacy-mode=off -set device.hostpci0.x-igd-opregion=on -set device.hostpci0.x-igd-gms=0x2"
+    }
+  ]
+}
